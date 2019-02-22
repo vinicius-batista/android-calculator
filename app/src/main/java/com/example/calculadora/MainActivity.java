@@ -10,7 +10,7 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView txtResult;
     private TextView txtHistory;
-    private String lastDigit;
+    private String lastDigit = "";
     private boolean isResult = false;
 
     @Override
@@ -76,6 +76,13 @@ public class MainActivity extends AppCompatActivity {
             case "-":
             case "/":
             case "+":
+                if ((this.lastDigit.isEmpty() || this.isResult) && btnText.equals("-")) {
+                    this.lastDigit = btnText;
+                    this.txtResult.setText(btnText);
+                    this.isResult = false;
+                    break;
+                }
+
                 if (!this.lastDigit.matches("^[0-9]")) {
                     this.lastDigit = btnText;
                     String historyText = this.txtHistory.getText().toString();
@@ -113,8 +120,13 @@ public class MainActivity extends AppCompatActivity {
             if (Character.isDigit(c) || c == '.') {
                 parsedDouble += c;
             }
+
             if (!(Character.isDigit(c) || (c == '.')) || i == input.length() - 1) {
-                Double parsed = Double.parseDouble(parsedDouble);
+                Double parsed = 0.0;
+
+                if (!parsedDouble.equals("")) {
+                    parsed = Double.parseDouble(parsedDouble);
+                }
 
                 switch (operator) {
                     case "":
