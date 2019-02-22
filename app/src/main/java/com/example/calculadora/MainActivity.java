@@ -12,6 +12,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView txtHistory;
     private String lastDigit = "";
     private boolean isResult = false;
+    private Double result = 0.0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,10 +89,15 @@ public class MainActivity extends AppCompatActivity {
                     String historyText = this.txtHistory.getText().toString();
                     historyText = historyText.substring(0, historyText.length() - 1);
                     this.txtHistory.setText(historyText + btnText);
+
                     break;
                 }
 
                 this.txtHistory.append(this.txtResult.getText().toString() + btnText);
+
+                this.result = this.calculateString(this.txtHistory.getText().toString());
+                this.txtResult.setText(this.result.toString());
+
                 this.lastDigit = btnText;
                 this.isResult = true;
                 break;
@@ -100,8 +106,8 @@ public class MainActivity extends AppCompatActivity {
                 this.txtHistory.append(this.txtResult.getText().toString());
                 String history = txtHistory.getText().toString();
 
-                Double result = this.calculateString(history);
-                this.txtResult.setText(result.toString());
+                this.result = this.calculateString(history);
+                this.txtResult.setText(this.result.toString());
 
                 txtHistory.setText("");
                 this.isResult = true;
